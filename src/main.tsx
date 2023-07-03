@@ -1,15 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import {
+  AppShell,
+  Burger,
+  Header,
+  MantineProvider,
+  Navbar,
+} from "@mantine/core";
 import App from "./App.tsx";
 import "./index.css";
 import { ClerkProvider, SignIn } from "@clerk/clerk-react";
-import {
-  Link,
-  Outlet,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { withProtected } from "./components/ProtectedRoute.tsx";
+import Swings from "./pages/swings/Swings.tsx";
+import Home from "./pages/home/Home.tsx";
 
 if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
   throw "Missing Publishable Key";
@@ -19,45 +23,32 @@ const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/sign-in",
     Component: () => (
-      <div style={{ height: "100dvh", width: "100dvw" }}>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/test">Test</Link>
-            </li>
-            <li>
-              <Link to="/sign-in">Sign in</Link>
-            </li>
-          </ul>
-        </nav>
-        <Outlet />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100dvw",
+          height: "100dvh",
+        }}
+      >
+        <SignIn />
       </div>
     ),
+  },
+  {
+    path: "/",
+    Component: withProtected(App),
     children: [
       {
         path: "/",
-        Component: withProtected(App),
+        Component: Home,
       },
       {
-        path: "/sign-in",
-        Component: () => (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <SignIn />
-          </div>
-        ),
+        path: "/swings",
+        Component: Swings,
       },
       {
         path: "/test",
@@ -82,7 +73,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={clerkPubKey}>
-      <RouterProvider router={router} />
+      <MantineProvider>
+        <RouterProvider router={router} />
+      </MantineProvider>
     </ClerkProvider>
   </React.StrictMode>
 );
