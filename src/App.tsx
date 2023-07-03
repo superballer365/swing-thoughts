@@ -13,6 +13,14 @@ import {
   Box,
 } from "@mantine/core";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  IconDefinition,
+  faGolfBallTee,
+  faHome,
+  faSignOut,
+  faTeeth,
+} from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const theme = useMantineTheme();
@@ -36,11 +44,16 @@ function App() {
           opened ? (
             <Navbar width={{ base: 300 }} p="xs">
               {[
-                { to: "/", label: "Home" },
-                { to: "/swings", label: "Swings" },
-                { to: "/test", label: "test" },
+                { to: "/", label: "Home", icon: faHome },
+                { to: "/swings", label: "Swings", icon: faGolfBallTee },
+                { to: "/test", label: "test", icon: faTeeth },
               ].map((item) => (
-                <NavItem key={item.label} to={item.to} label={item.label} />
+                <NavItem
+                  key={item.label}
+                  to={item.to}
+                  label={item.label}
+                  icon={item.icon}
+                />
               ))}
             </Navbar>
           ) : undefined
@@ -76,7 +89,12 @@ function App() {
                 <Avatar style={{ cursor: "pointer" }} radius="xl" />
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item onClick={() => auth.signOut()}>Log Out</Menu.Item>
+                <Menu.Item
+                  onClick={() => auth.signOut()}
+                  icon={<FontAwesomeIcon icon={faSignOut} />}
+                >
+                  Log Out
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Header>
@@ -96,12 +114,21 @@ function App() {
   );
 }
 
-function NavItem({ to, label }: { to: string; label: string }) {
+function NavItem({
+  to,
+  label,
+  icon,
+}: {
+  to: string;
+  label: string;
+  icon: IconDefinition;
+}) {
   const location = useLocation();
 
   return (
     <NavLink
       component={Link}
+      icon={<FontAwesomeIcon icon={icon} />}
       active={location.pathname === to}
       to={to}
       label={label}
