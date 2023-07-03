@@ -3,7 +3,7 @@ import Cookies from "cookies";
 import jwt from "jsonwebtoken";
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const publicKey = process.env.CLERK_PEM_PUBLIC_KEY;
+  const publicKey = process.env.VITE_CLERK_PEM_PUBLIC_KEY;
   console.log("publicKey", publicKey);
   res.status(200).json({ msg: publicKey });
   return;
