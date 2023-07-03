@@ -17,6 +17,8 @@
     "@mantine/core": "^6.0.15",
     "@tanstack/router": "^0.0.1-beta.89",
     "@vercel/node": "^2.15.2",
+    "cookies": "^0.8.0",
+    "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1"
