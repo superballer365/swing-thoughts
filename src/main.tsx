@@ -1,12 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  AppShell,
-  Burger,
-  Header,
-  MantineProvider,
-  Navbar,
-} from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import App from "./App.tsx";
 import "./index.css";
 import { ClerkProvider, SignIn } from "@clerk/clerk-react";
