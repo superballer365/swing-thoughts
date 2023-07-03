@@ -19,11 +19,14 @@ if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const rootRoute = new RootRoute({
-  component: () => (
-    <div style={{ height: "100dvh", width: "100dvw" }}>
-      <Outlet />
-    </div>
-  ),
+  component: () => {
+    console.log("At root route");
+    return (
+      <div style={{ height: "100dvh", width: "100dvw" }}>
+        <Outlet />
+      </div>
+    );
+  },
 });
 
 const homeRoute = new Route({
@@ -35,19 +38,23 @@ const homeRoute = new Route({
 const signInRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/sign-in",
-  component: () => (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <SignIn />
-    </div>
-  ),
+  component: () => {
+    console.log("On sign in page");
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <SignIn />
+      </div>
+    );
+  },
 });
 
 // Create the route tree using your routes
