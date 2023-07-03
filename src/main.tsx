@@ -6,6 +6,7 @@ import {
   Router,
   Route,
   RootRoute,
+  Link,
 } from "@tanstack/router";
 import App from "./App.tsx";
 import "./index.css";
@@ -23,7 +24,32 @@ const rootRoute = new RootRoute({
     console.log("At root route");
     return (
       <div style={{ height: "100dvh", width: "100dvw" }}>
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/test">Test</Link>
+          <Link to="/sign-in">Sign in</Link>
+        </div>
         <Outlet />
+      </div>
+    );
+  },
+});
+
+const testRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/test",
+  component: () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        You are on test page
       </div>
     );
   },
@@ -59,7 +85,7 @@ const signInRoute = new Route({
 });
 
 // Create the route tree using your routes
-const routeTree = rootRoute.addChildren([homeRoute, signInRoute]);
+const routeTree = rootRoute.addChildren([homeRoute, signInRoute, testRoute]);
 
 // Create the router using your route tree
 const router = new Router({ routeTree });
