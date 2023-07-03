@@ -20,27 +20,24 @@ const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: () => {
-      console.log("At root route");
-      return (
-        <div style={{ height: "100dvh", width: "100dvw" }}>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/test">Test</Link>
-              </li>
-              <li>
-                <Link to="/sign-in">Sign in</Link>
-              </li>
-            </ul>
-          </nav>
-          <Outlet />
-        </div>
-      );
-    },
+    Component: () => (
+      <div style={{ height: "100dvh", width: "100dvw" }}>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/test">Test</Link>
+            </li>
+            <li>
+              <Link to="/sign-in">Sign in</Link>
+            </li>
+          </ul>
+        </nav>
+        <Outlet />
+      </div>
+    ),
     children: [
       {
         path: "/",
@@ -48,41 +45,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/sign-in",
-        Component: () => {
-          console.log("On sign in page");
-
-          return (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <SignIn />
-            </div>
-          );
-        },
+        Component: () => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <SignIn />
+          </div>
+        ),
       },
       {
         path: "/test",
-        Component: () => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              You are on test page
-            </div>
-          );
-        },
+        Component: () => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            You are on test page
+          </div>
+        ),
       },
     ],
   },
