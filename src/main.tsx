@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  Outlet,
-  RouterProvider,
-  Router,
-  Route,
-  RootRoute,
-  Link,
-} from "@tanstack/router";
 import App from "./App.tsx";
 import "./index.css";
 import { ClerkProvider, SignIn } from "@clerk/clerk-react";
+import {
+  Link,
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import { withProtected } from "./components/ProtectedRoute.tsx";
 
 if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
@@ -19,83 +17,76 @@ if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-const rootRoute = new RootRoute({
-  component: () => {
-    console.log("At root route");
-    return (
-      <div style={{ height: "100dvh", width: "100dvw" }}>
-        <div>
-          <Link to="/">Home</Link>
-          <Link to="/test">Test</Link>
-          <Link to="/sign-in">Sign in</Link>
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: () => {
+      console.log("At root route");
+      return (
+        <div style={{ height: "100dvh", width: "100dvw" }}>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/test">Test</Link>
+              </li>
+              <li>
+                <Link to="/sign-in">Sign in</Link>
+              </li>
+            </ul>
+          </nav>
+          <Outlet />
         </div>
-        <Outlet />
-      </div>
-    );
+      );
+    },
+    children: [
+      {
+        path: "/",
+        Component: withProtected(App),
+      },
+      {
+        path: "/sign-in",
+        Component: () => {
+          console.log("On sign in page");
+
+          return (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <SignIn />
+            </div>
+          );
+        },
+      },
+      {
+        path: "/test",
+        Component: () => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              You are on test page
+            </div>
+          );
+        },
+      },
+    ],
   },
-});
-
-const testRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/test",
-  component: () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        You are on test page
-      </div>
-    );
-  },
-});
-
-const homeRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: withProtected(App),
-});
-
-const signInRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/sign-in",
-  component: () => {
-    console.log("On sign in page");
-
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <div>test</div>
-        <SignIn />
-      </div>
-    );
-  },
-});
-
-// Create the route tree using your routes
-const routeTree = rootRoute.addChildren([homeRoute, signInRoute, testRoute]);
-
-// Create the router using your route tree
-const router = new Router({ routeTree });
-
-// Register your router for maximum type safety
-declare module "@tanstack/router" {
-  interface Register {
-    router: typeof router;
-  }
-}
+]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
