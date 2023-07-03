@@ -10,6 +10,7 @@ export default function ProtectedRoute({ children }: Props) {
   if (!isLoaded) return null;
 
   if (!isSignedIn) {
+    console.log("Redirecting to sign in page");
     return <Navigate to="/sign-in" />;
   }
 
